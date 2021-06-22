@@ -3,6 +3,7 @@ start_time <- Sys.time()
 
 # ----- Libraries ----- #
 library(FITSio)
+library(readr)
 
 
 # ----- Initial declarations ----- #
@@ -10,7 +11,7 @@ dir_Raw <- file.path(getwd(), "Raw")
 imglist <- list.files(dir_Raw)
 n_img <- length(imglist)
 
-col <- c("EXP-ID", "FRAMEID", "DATE-OBS", "DATA-TYP", "OBJECT" ,"FILTER01")
+col <- c("EXP-ID", "FRAMEID", "DATE-OBS", "DATA-TYP", "OBJECT" ,"FILTER01", "EXPTIME")
 n_col <- length(col)
 eval(parse(text = paste0("v0", 1:n_col, " <- NULL")))
 
@@ -35,7 +36,7 @@ for (i in seq(n_img)) {
 vv <- paste(paste("v0", 1:n_col, sep=""), collapse=", ")
 eval(parse(text = paste("df <- data.frame(", vv, ")", sep="")))
 names(df) <- col
-write.csv(df, "info.csv", row.names = FALSE)
+write_csv(df, "raw_info.csv")
 
 
 # ----- Printing the running time ----- #
